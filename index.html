@@ -21,17 +21,16 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; padding-bottom: 110px; }
 
-        /* Container utama yang akan berubah di PC */
         .container { 
             max-width: 1100px; 
             margin: 0 auto; 
             padding: 20px; 
             display: flex;
-            flex-direction: column; /* Default HP: Berurutan ke bawah */
+            flex-direction: column;
             gap: 20px;
         }
 
-        /* HEADER & SIDEBAR (Bagian Profil & Harga) */
+        /* SIDEBAR - DIPERBAIKI AGAR STABIL */
         .sidebar {
             width: 100%;
             text-align: center;
@@ -46,16 +45,35 @@
         .brand-name { font-size: 1.8rem; font-weight: 700; background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .status-badge { display: inline-block; margin: 8px 0 20px; font-size: 0.75rem; background: rgba(0, 255, 128, 0.1); color: #00ff80; padding: 5px 15px; border-radius: 20px; border: 1px solid rgba(0, 255, 128, 0.3); }
 
+        /* TICKER - FIXED WIDTH AGAR TIDAK KEDAT KEDUT */
         .ticker-wrapper { 
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; 
-            background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); 
-            border-radius: 15px; padding: 12px; margin-bottom: 10px;
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 10px; 
+            background: rgba(255,255,255,0.03); 
+            border: 1px solid var(--card-border); 
+            border-radius: 15px; 
+            padding: 12px; 
+            margin-bottom: 10px;
         }
-        .ticker-item { background: rgba(0,0,0,0.2); padding: 10px; border-radius: 10px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+        .ticker-item { 
+            background: rgba(0,0,0,0.2); 
+            padding: 10px; 
+            border-radius: 10px; 
+            text-align: center; 
+            border: 1px solid rgba(255,255,255,0.05);
+            min-height: 65px; /* Menjaga tinggi agar tetap */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
         .t-name { font-size: 0.7rem; color: var(--text-muted); display: block; margin-bottom: 4px; }
-        .t-price { font-size: 0.85rem; font-weight: 600; }
+        .t-price { 
+            font-size: 0.85rem; 
+            font-weight: 600; 
+            font-variant-numeric: tabular-nums; /* Menggunakan font angka yang lebarnya sama */
+        }
 
-        /* CONTENT AREA (Tabel Fee & FAQ) */
         .main-content { width: 100%; }
 
         .tabs { display: flex; gap: 8px; margin-bottom: 15px; }
@@ -77,23 +95,21 @@
         .footer-cta { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 440px; z-index: 100; }
         .btn-main { background: linear-gradient(90deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; gap: 10px; padding: 16px; border-radius: 15px; color: #000; text-decoration: none; font-weight: 700; box-shadow: 0 5px 25px rgba(0,242,255,0.4); }
 
-        /* =========================================
-           TAMPILAN KHUSUS LAPTOP/PC (MIN 900px)
-        ========================================= */
         @media (min-width: 900px) {
             .container { 
-                flex-direction: row; /* Berubah jadi 2 kolom (Kiri & Kanan) */
+                flex-direction: row; 
                 align-items: flex-start;
                 margin-top: 50px;
             }
             .sidebar { 
-                width: 380px; /* Lebar sidebar di kiri */
+                width: 320px; /* Dipersempit agar main content lebih lega */
                 position: sticky; top: 50px;
                 text-align: left;
+                flex-shrink: 0; /* Mencegah sidebar mengecil */
             }
             .profile-img { margin-left: 0; }
-            .ticker-wrapper { grid-template-columns: 1fr; } /* Harga jadi memanjang ke bawah */
-            .main-content { flex: 1; } /* Sisa layar untuk isi konten */
+            .ticker-wrapper { grid-template-columns: 1fr; }
+            .main-content { flex: 1; }
             .footer-cta { 
                 position: relative; transform: none; left: 0; width: 100%; max-width: 100%; margin-top: 20px;
             }
@@ -105,7 +121,6 @@
 <body>
 
 <div class="container">
-    
     <div class="sidebar">
         <header>
             <div class="profile-img">
@@ -116,10 +131,10 @@
         </header>
 
         <div class="ticker-wrapper">
-            <div class="ticker-item"><span class="t-name">1 USDT (Tether)</span><span id="p-tether" class="t-price">...</span></div>
-            <div class="ticker-item"><span class="t-name">1 BTC (Bitcoin)</span><span id="p-bitcoin" class="t-price">...</span></div>
-            <div class="ticker-item"><span class="t-name">1 SOL (Solana)</span><span id="p-solana" class="t-price">...</span></div>
-            <div class="ticker-item"><span class="t-name">1 TON (Toncoin)</span><span id="p-the-open-network" class="t-price">...</span></div>
+            <div class="ticker-item"><span class="t-name">1 USDT (Tether)</span><span id="p-tether" class="t-price">Memuat...</span></div>
+            <div class="ticker-item"><span class="t-name">1 BTC (Bitcoin)</span><span id="p-bitcoin" class="t-price">Memuat...</span></div>
+            <div class="ticker-item"><span class="t-name">1 SOL (Solana)</span><span id="p-solana" class="t-price">Memuat...</span></div>
+            <div class="ticker-item"><span class="t-name">1 TON (Toncoin)</span><span id="p-the-open-network" class="t-price">Memuat...</span></div>
         </div>
         
         <div class="footer-cta" id="cta-pc">
@@ -157,7 +172,7 @@
         </div>
 
         <div id="cv" class="card">
-            <div class="card-h"><i class="fas fa-wallet"></i> CV Dana (Non Prem)</div>
+            <div class="card-h"><i class="fas fa-wallet"></i> CV Dana (Non Premium)</div>
             <div class="row"><span>10k – 20k</span><span class="fee">Rp1.000</span></div>
             <div class="row"><span>21k – 35k</span><span class="fee">Rp2.000</span></div>
             <div class="row"><span>36k – 50k</span><span class="fee">Rp3.000</span></div>
@@ -171,11 +186,10 @@
             <div class="faq-content">Proses instan 1-5 menit selama admin online.</div>
         </div>
         <div class="faq-item">
-            <div class="faq-header" onclick="toggleFaq(this)">Kenapa transaksi gagal fee dipotong? <i class="fas fa-plus"></i></div>
+            <div class="faq-header" onclick="toggleFaq(this)">Kenapa transaksi gagal fee tetap dipotong? <i class="fas fa-plus"></i></div>
             <div class="faq-content">Ketentuan: transaksi gagal → fee tetap dipotong.</div>
         </div>
     </div>
-
 </div>
 
 <script>
@@ -195,11 +209,15 @@
             const data = await response.json();
             for (const id in data) {
                 const el = document.getElementById(`p-${id}`);
-                if (el) el.innerText = `Rp${data[id].idr.toLocaleString('id-ID')}`;
+                if (el) {
+                    // Format angka yang konsisten
+                    el.innerText = `Rp${data[id].idr.toLocaleString('id-ID')}`;
+                }
             }
         } catch (e) { console.error("API Error"); }
     }
-    setInterval(getPrices, 20000);
+    // Update setiap 15 detik agar tetap real-time namun stabil
+    setInterval(getPrices, 15000);
     getPrices();
 </script>
 
