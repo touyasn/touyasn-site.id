@@ -1,93 +1,156 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TouyaSN | Crypto Service</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
-    body { background: #0f1220; color: #eaeaff; line-height: 1.6; }
-    header { background: linear-gradient(135deg, #6a5af9, #9b5cff); padding: 40px 20px; text-align: center; }
-    header h1 { font-size: 2.5em; margin-bottom: 10px; }
-    header p { opacity: 0.9; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SykesArs | Premium Exchange</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
-    .container { max-width: 1000px; margin: auto; padding: 30px 20px; }
-    .card { background: #171a2e; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-    .card h2 { margin-bottom: 15px; color: #9b8cff; }
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --primary: #00f2ff;
+            --secondary: #bc13fe;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+        }
 
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    table th, table td { padding: 12px; border-bottom: 1px solid #2a2e55; text-align: left; }
-    table th { background: #1f2350; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; padding-bottom: 110px; }
+        .container { max-width: 480px; margin: 0 auto; padding: 20px; }
 
-    ul { padding-left: 20px; }
-    li { margin-bottom: 8px; }
+        header { text-align: center; margin-bottom: 20px; }
+        .profile-img { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--primary); margin: 0 auto 15px; overflow: hidden; box-shadow: 0 0 20px rgba(0, 242, 255, 0.4); }
+        .profile-img img { width: 100%; height: 100%; object-fit: cover; }
+        .brand-name { font-size: 1.8rem; font-weight: 700; background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .status-badge { display: inline-block; margin-top: 8px; font-size: 0.75rem; background: rgba(0, 255, 128, 0.1); color: #00ff80; padding: 5px 15px; border-radius: 20px; border: 1px solid rgba(0, 255, 128, 0.3); }
 
-    .contact a { display: inline-block; margin-top: 10px; padding: 12px 20px; background: #6a5af9; color: #fff; border-radius: 8px; text-decoration: none; transition: 0.3s; }
-    .contact a:hover { background: #5848e5; }
+        .ticker-wrapper { background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); border-radius: 15px; padding: 12px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .ticker-item { background: rgba(0,0,0,0.2); padding: 10px; border-radius: 10px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+        .t-name { font-size: 0.7rem; color: var(--text-muted); display: block; margin-bottom: 4px; }
+        .t-price { font-size: 0.85rem; font-weight: 600; }
 
-    footer { text-align: center; padding: 20px; font-size: 0.9em; opacity: 0.6; }
-  </style>
+        .tabs { display: flex; gap: 8px; margin-bottom: 15px; }
+        .tab-btn { flex: 1; padding: 12px; border-radius: 12px; border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text-muted); cursor: pointer; transition: 0.3s; font-weight: 600; }
+        .tab-btn.active { background: linear-gradient(90deg, var(--primary), var(--secondary)); color: #000; border: none; }
+
+        .card { background: var(--card-bg); border-radius: 20px; padding: 20px; border: 1px solid var(--card-border); display: none; animation: fadeIn 0.4s ease; }
+        .card.show { display: block; }
+        .card-h { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px; }
+        .row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
+        .fee { color: var(--secondary); font-weight: 700; }
+
+        .faq-title { margin: 25px 0 12px; font-size: 1.1rem; font-weight: 700; padding-left: 5px; }
+        .faq-item { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; margin-bottom: 8px; overflow: hidden; }
+        .faq-header { padding: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; font-weight: 600; }
+        .faq-content { max-height: 0; overflow: hidden; transition: 0.3s ease; padding: 0 15px; color: var(--text-muted); font-size: 0.85rem; }
+        .faq-item.active .faq-content { padding-bottom: 15px; max-height: 150px; }
+
+        .footer-cta { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 440px; z-index: 100; }
+        .btn-main { background: linear-gradient(90deg, var(--primary), var(--secondary)); display: block; text-align: center; padding: 16px; border-radius: 15px; color: #000; text-decoration: none; font-weight: 700; box-shadow: 0 5px 25px rgba(0,242,255,0.4); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
 <body>
 
-<header>
-  <h1>TouyaSN</h1>
-  <p>Layanan Jual • Beli • Tukar Crypto ke IDR</p>
-</header>
-
 <div class="container">
+    <header>
+        <div class="profile-img">
+            <img src="https://t.me/i/userpic/320/SykesArs.jpg" alt="SykesArs">
+        </div>
+        <h1 class="brand-name">SykesArs</h1>
+        <div class="status-badge">● Online & Ready</div>
+    </header>
 
-  <div class="card">
-    <h2>📊 Daftar Layanan</h2>
-    <table>
-      <tr>
-        <th>Layanan</th>
-        <th>Keterangan</th>
-      </tr>
-      <tr>
-        <td>Buy Crypto</td>
-        <td>Beli USDT / BTC / ETH via Transfer Bank & E-Wallet</td>
-      </tr>
-      <tr>
-        <td>Sell Crypto</td>
-        <td>Jual crypto ke IDR dengan proses cepat</td>
-      </tr>
-      <tr>
-        <td>Swap</td>
-        <td>Tukar antar aset crypto</td>
-      </tr>
-    </table>
-  </div>
+    <div class="ticker-wrapper">
+        <div class="ticker-item"><span class="t-name">1 USDT (Tether)</span><span id="p-tether" class="t-price">...</span></div>
+        <div class="ticker-item"><span class="t-name">1 BTC (Bitcoin)</span><span id="p-bitcoin" class="t-price">...</span></div>
+        <div class="ticker-item"><span class="t-name">1 SOL (Solana)</span><span id="p-solana" class="t-price">...</span></div>
+        <div class="ticker-item"><span class="t-name">1 TON (Toncoin)</span><span id="p-the-open-network" class="t-price">...</span></div>
+    </div>
 
-  <div class="card">
-    <h2>💳 Metode Pembayaran</h2>
-    <ul>
-      <li>Bank Lokal (BCA, BRI, Mandiri, dll)</li>
-      <li>DANA / OVO / GoPay</li>
-      <li>QRIS</li>
-    </ul>
-  </div>
+    <div class="tabs">
+        <button class="tab-btn active" onclick="tab('crypto')">CRYPTO</button>
+        <button class="tab-btn" onclick="tab('rekber')">REKBER</button>
+        <button class="tab-btn" onclick="tab('cv')">CV DANA</button>
+    </div>
 
-  <div class="card">
-    <h2>⚠️ Catatan Penting</h2>
-    <ul>
-      <li>Harga mengikuti market saat transaksi</li>
-      <li>Tidak melayani dana hasil kejahatan</li>
-      <li>Pastikan alamat wallet benar</li>
-    </ul>
-  </div>
+    <div id="crypto" class="card show">
+        <div class="card-h"><i class="fab fa-bitcoin"></i> Harga Eceran Crypto</div>
+        <div class="row"><span>10k – 20k</span><span class="fee">Rp2.000</span></div>
+        <div class="row"><span>21k – 60k</span><span class="fee">Rp3.000</span></div>
+        <div class="row"><span>61k – 100k</span><span class="fee">Rp4.000</span></div>
+        <div class="row"><span>110k – 250k</span><span class="fee">Rp5.000</span></div>
+        <div class="row"><span>260k – 500k</span><span class="fee">Rp7.000</span></div>
+        <div class="row"><span>501k – 600k</span><span class="fee">Rp8.000</span></div>
+        <div class="row"><span>800k – 1,1jt</span><span class="fee">2%</span></div>
+        <div class="row"><span>1,5jt – 4,5jt</span><span class="fee">3%</span></div>
+    </div>
 
-  <div class="card contact">
-    <h2>📞 Kontak Admin</h2>
-    <p>Transaksi & pertanyaan silakan hubungi admin:</p>
-    <a href="https://t.me/touyasn" target="_blank">Chat via Telegram</a>
-  </div>
+    <div id="rekber" class="card">
+        <div class="card-h"><i class="fas fa-handshake"></i> Fee Rekber</div>
+        <div class="row"><span>5k – 50k</span><span class="fee">Rp2.000</span></div>
+        <div class="row"><span>51k – 100k</span><span class="fee">Rp3.000</span></div>
+        <div class="row"><span>101k – 250k</span><span class="fee">Rp5.000</span></div>
+        <div class="row"><span>251k – 500k</span><span class="fee">Rp8.000</span></div>
+        <div class="row"><span>501k – 800k</span><span class="fee">Rp10.000</span></div>
+        <div class="row"><span>801k – 1,5jt</span><span class="fee">Rp12.000</span></div>
+    </div>
 
+    <div id="cv" class="card">
+        <div class="card-h"><i class="fas fa-wallet"></i> CV Dana (Non Premium)</div>
+        <div class="row"><span>10k – 20k</span><span class="fee">Rp1.000</span></div>
+        <div class="row"><span>21k – 35k</span><span class="fee">Rp2.000</span></div>
+        <div class="row"><span>36k – 50k</span><span class="fee">Rp3.000</span></div>
+        <div class="row"><span>51k – 100k</span><span class="fee">Rp4.000</span></div>
+        <div class="row"><span>Lainnya</span><span class="fee">Konsultasi</span></div>
+    </div>
+
+    <div class="faq-title">FAQ / Info</div>
+    <div class="faq-item">
+        <div class="faq-header" onclick="toggleFaq(this)">Berapa lama prosesnya? <i class="fas fa-plus"></i></div>
+        <div class="faq-content">Proses instan 1-5 menit selama admin online.</div>
+    </div>
+    <div class="faq-item">
+        <div class="faq-header" onclick="toggleFaq(this)">Kenapa transaksi gagal fee tetap dipotong? <i class="fas fa-plus"></i></div>
+        <div class="faq-content">Ketentuan: transaksi gagal → fee tetap dipotong.</div>
+    </div>
 </div>
 
-<footer>
-  © 2026 TouyaSN. All rights reserved.
-</footer>
+<div class="footer-cta">
+    <a href="https://t.me/SykesArs" class="btn-main"><i class="fab fa-telegram-plane"></i> HUBUNGI ADMIN</a>
+</div>
+
+<script>
+    function tab(id) {
+        document.querySelectorAll('.card').forEach(c => c.classList.remove('show'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('show');
+        event.currentTarget.classList.add('active');
+    }
+
+    function toggleFaq(el) {
+        el.parentElement.classList.toggle('active');
+    }
+
+    async function getPrices() {
+        const coinIds = 'bitcoin,tether,solana,the-open-network';
+        try {
+            const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coinIds}&vs_currencies=idr`);
+            const data = await response.json();
+            for (const id in data) {
+                const el = document.getElementById(`p-${id}`);
+                if (el) el.innerText = `Rp${data[id].idr.toLocaleString('id-ID')}`;
+            }
+        } catch (e) { console.error("API Error"); }
+    }
+    setInterval(getPrices, 20000);
+    getPrices();
+</script>
 
 </body>
 </html>
